@@ -24,3 +24,11 @@ range(1,5)
 
 double_num = [n*2  for n in range(1,5)]
 print(double_num)
+
+names = ["Daniel", "Mercedes", "Blanca","Marta"]
+
+short_names1 = [name for name in names if len(name) < 6] # sale Marta solo por la longitud del nombre
+
+
+short_names1 = [name.upper() for name in names if len(name) < 6] # sale MARTA solo por la longitud del nombre
+print(short_names1)
