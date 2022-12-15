@@ -1,5 +1,6 @@
 
 # ---------------------------- CONSTANTS ------------------------------- #
+import math
 from tkinter import Button, Canvas, Label, PhotoImage, Tk
 import time
 
@@ -13,6 +14,7 @@ WORK_MIN = 25
 SHORT_BREAK_MIN = 5
 LONG_BREAK_MIN = 20
 reps = 0
+timer = None
 # ---------------------------- TIMER RESET ------------------------------- #
 
 # ---------------------------- TIMER MECHANISM ------------------------------- #
@@ -22,9 +24,15 @@ reps = 0
 # ---------------------------- UI SETUP ------------------------------- #
 
 
-def count_pomodoro():
-    count_down()
-
+def reset_timer():
+    global timer
+    if timer is not None:
+        window.after(timer)
+    canvas.itemconfig(timer_text, text= "00:00")
+    title_label.config(text="Timer")
+    check_markss.config(text="")
+    global reps
+    reps = 0
 
 def start_timer():
     global reps
@@ -53,7 +61,11 @@ def count_down(count):
         window.after(1000, count_down, count - 1)
     else:
         start_timer()
-        
+        marks = ""
+        work_sessions = math.floor(reps/2)
+        for _ in range(work_sessions):
+            marks += "✔"
+        check_markss.config(text=marks)
         
 
 
@@ -80,11 +92,11 @@ canvas.grid(column=1,row=1)
 star_button = Button(text="Start", highlightthickness=0 , command =start_timer)
 star_button.grid(column=0,row=2)
 
-reset_button = Button(text="Reset", highlightthickness=0)
+reset_button = Button(text="Reset", highlightthickness=0 , command = reset_timer)
 
 reset_button.grid(column=2,row=2)
 
-check_marks = Label(text="✔", fg=GREEN, bg=YELLOW)
-check_marks.grid(column=1,row=3)
+check_markss = Label(text="✔", fg=GREEN, bg=YELLOW)
+check_markss.grid(column=1,row=3)
 
 window.mainloop()
